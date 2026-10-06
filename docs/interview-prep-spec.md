@@ -96,8 +96,8 @@ Bảng theo dõi để tiếp tục đúng chỗ khi đổi máy (công ty ⇄ n
 
 | # | Bài | File | Trạng thái |
 |---|-----|------|-----------|
-| 1 | debounce | `exercises/week1/01-debounce.js` | ✅ Done — pass 3/3 test, đã thêm `cancel()`, đã hiểu rõ thứ tự sync/microtask/macrotask qua phần xoáy thêm |
-| 2 | throttle | `exercises/week1/02-throttle.js` | 🟡 Đang làm — file đã tạo, chưa implement |
+| 1 | debounce | `exercises/week1/01-debounce.js` | ✅ Done — pass 3/3 test, đã thêm `cancel()`, giữ đúng `this` (`fn.apply(this, args)` trong arrow callback của `setTimeout`), đã hiểu rõ thứ tự sync/microtask/macrotask qua phần xoáy thêm. Còn dọn: typo `excutedFunction`, comment TODO, `console.log` trong `cancel()`, chưa có test riêng cho `cancel()`/`this` |
+| 2 | throttle | `exercises/week1/02-throttle.js` | ✅ Done — pass 4/4 test, dùng cờ + `setTimeout`; đã sửa: giữ đúng `this` (đổi arrow → `function`), đặt `setTimeout` trước `fn.apply` để `fn` throw không khóa vĩnh viễn. Phần xoáy: timer vs timestamp khi event loop bị block (cửa sổ ≈ `max(interval, thời gian block)`), arrow function chỉ implicit return khi không có `{}`. Còn dọn: comment TODO, chưa có test riêng cho `this`/throw |
 | 3 | deep clone object | `exercises/week1/03-deep-clone.js` | ⬜ Chưa tạo |
 | 4 | flatten nested array | `exercises/week1/04-flatten.js` | ⬜ Chưa tạo |
 | 5 | memoize | `exercises/week1/05-memoize.js` | ⬜ Chưa tạo |
@@ -107,4 +107,4 @@ Bảng theo dõi để tiếp tục đúng chỗ khi đổi máy (công ty ⇄ n
 | 9 | LRU cache đơn giản | `exercises/week1/09-lru-cache.js` | ⬜ Chưa tạo |
 | 10 | parse query string → object | `exercises/week1/10-parse-query-string.js` | ⬜ Chưa tạo |
 
-**Lưu ý khi đổi máy:** repo git hiện tại ở `/Users/dmtung/Desktop/PracticeLivecode` **không có git riêng** — `.git` thực chất nằm ở `/Users/dmtung/Desktop` và thuộc repo công ty `virtual-chef-humanai-ultralight` (remote GitLab công ty). Trước khi đồng bộ sang máy khác, cần tách `PracticeLivecode/` ra một git repo độc lập (xem việc cần làm, chưa thực hiện) — không push thư mục này qua remote công ty.
+**Lưu ý khi đổi máy:** đã tách thành git repo độc lập, remote `https://github.com/dmTung99-dev/PraticeLivecode` (tên repo/thư mục là `PraticeLivecode`). Máy Windows ở nhà: `D:\Flutter\PraticeLivecode`. Đổi máy thì `git pull` trước khi làm, `git push` sau mỗi bài. Không push thư mục này qua remote công ty.

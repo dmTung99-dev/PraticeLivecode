@@ -12,15 +12,15 @@
 function debounce(fn, delay) {
   // TODO: implement
   let timer;
-  function excutedFunction(...args) {
+  function executedFunction(...args) {
     clearTimeout(timer);
-    timer = setTimeout(()=>fn(...args), delay)
+    timer = setTimeout(()=>fn.apply(this, args), delay)
   }
-  excutedFunction.cancel = function() {
+  executedFunction.cancel = function() {
     console.log("Cancel debounce!!")
     clearTimeout(timer)
   }
-  return excutedFunction;
+  return executedFunction;
 }
 
 module.exports = debounce;

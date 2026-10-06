@@ -15,6 +15,14 @@
 
 function throttle(fn, interval) {
   // TODO: implement
+  let inThrottle;
+  return function (...args) {
+    if(!inThrottle) {
+      inThrottle = true
+      setTimeout(()=> inThrottle = false, interval)
+      fn.apply(this, args) 
+    }
+  } 
 }
 
 module.exports = throttle;
