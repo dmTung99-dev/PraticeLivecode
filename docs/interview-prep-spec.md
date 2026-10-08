@@ -87,6 +87,7 @@ Bài tập Tuần 1 (10 hàm JS/TS thuần) được hiện thực hóa thành f
 
 - Vị trí: `exercises/week1/NN-ten-bai.js` — mỗi file có stub hàm cần implement + một bộ self-test chạy ngay khi gọi `node exercises/week1/NN-ten-bai.js` (dùng `node:assert`, không cần cài thêm gì).
 - Quy trình mỗi bài: Claude ra đề (mô tả yêu cầu, không gợi ý cách làm) → người luyện tự code vào stub → tự chạy file để xem pass/fail → báo đã xong → Claude đọc code, tự chạy lại để xác nhận, rồi chấm (đúng/sai, edge case bị sót, cách tốt hơn nếu có) → sửa hoặc chuyển bài tiếp theo.
+- Sau khi hoàn thành mỗi bài: kiến thức lý thuyết, lỗi đã gặp, phần trả lời câu xoáy và việc còn dọn được ghi thành block `GHI CHÚ KIẾN THỨC` ở **cuối chính file bài tập**. Mục 9 của spec chỉ giữ trạng thái ngắn gọn, không chứa kiến thức.
 - Nguyên tắc: không đưa gợi ý/hint ở lần làm đầu tiên của mỗi bài; gợi ý/refactor chỉ xuất hiện ở bước chấm sau khi đã có lời giải.
 - Nguồn tra cứu khi bị kẹt: tài liệu chính thức (MDN, Node.js docs...) được phép dùng để tra cú pháp/API quên; **không** dùng bất kỳ AI model nào (ChatGPT, Claude khác, Copilot/Cursor autocomplete, hoặc hỏi xin lời giải) và không tìm "cách giải bài X" trên Google/StackOverflow — cả hai đều tương đương với việc được mách lời giải, phá mất mục đích luyện phản xạ tay.
 
@@ -96,10 +97,10 @@ Bảng theo dõi để tiếp tục đúng chỗ khi đổi máy (công ty ⇄ n
 
 | # | Bài | File | Trạng thái |
 |---|-----|------|-----------|
-| 1 | debounce | `exercises/week1/01-debounce.js` | ✅ Done — pass 3/3 test, đã thêm `cancel()`, giữ đúng `this` (`fn.apply(this, args)` trong arrow callback của `setTimeout`), đã hiểu rõ thứ tự sync/microtask/macrotask qua phần xoáy thêm. Còn dọn: typo `excutedFunction`, comment TODO, `console.log` trong `cancel()`, chưa có test riêng cho `cancel()`/`this` |
-| 2 | throttle | `exercises/week1/02-throttle.js` | ✅ Done — pass 4/4 test, dùng cờ + `setTimeout`; đã sửa: giữ đúng `this` (đổi arrow → `function`), đặt `setTimeout` trước `fn.apply` để `fn` throw không khóa vĩnh viễn. Phần xoáy: timer vs timestamp khi event loop bị block (cửa sổ ≈ `max(interval, thời gian block)`), arrow function chỉ implicit return khi không có `{}`. Còn dọn: comment TODO, chưa có test riêng cho `this`/throw |
-| 3 | deep clone object | `exercises/week1/03-deep-clone.js` | ✅ Done — pass 9/9 test. Lần đầu copy nguyên bài từ StackOverflow (bị nhắc là không nên, vì tương đương hỏi AI), đã xóa và tự viết lại bằng đệ quy. 2 lỗi tự sửa qua các lần chấm: (1) nhánh object chỉ gán nông `result[key] = value[key]` thay vì đệ quy `deepClone(value[key])`; (2) khai báo cố định `result = {}` trước khi biết `value` là array hay object, gây crash tiềm ẩn nếu gọi `deepClone([...])` trực tiếp. Phần xoáy: hiểu rõ vì sao Date/Map/Set/RegExp/boxed-primitive bị "âm thầm" clone sai thành `{}` rỗng (do `Object.keys` không expose state nội bộ của các kiểu này) — đúng lý do các kiểu đó nằm ngoài scope bài. Chưa mở rộng xử lý Date/Map/Set (để ngoài scope theo đề) |
-| 4 | flatten nested array | `exercises/week1/04-flatten.js` | ✅ Done — pass 8/8 test, đệ quy + `depth = Infinity` mặc định, `depth === 0` trả bản sao nông. Trước khi code đã hỏi lý thuyết (cây/DFS, đệ quy vs stack tự quản lý). Lỗi tự sửa qua các lần chấm: lặp theo `depth` thay vì `arr.length`, `push[...]` thay vì `push(...)`, quên spread kết quả đệ quy, off-by-one `i <= arr.length`. Phần xoáy: hiểu `push(...x)` với mảng ~500k phần tử gây `RangeError` do vượt giới hạn số đối số (fix: push từng phần tử / truyền chung 1 `result`); lồng ~20k cấp gây tràn stack đệ quy (fix: stack tự quản lý — chưa code). Còn dọn: `==` → `===` |
+| 1 | debounce | `exercises/week1/01-debounce.js` | ✅ Done — pass 5/5 test |
+| 2 | throttle | `exercises/week1/02-throttle.js` | ✅ Done — pass 8/8 test |
+| 3 | deep clone object | `exercises/week1/03-deep-clone.js` | ✅ Done — pass 9/9 test |
+| 4 | flatten nested array | `exercises/week1/04-flatten.js` | ✅ Done — pass 8/8 test |
 | 5 | memoize | `exercises/week1/05-memoize.js` | 🟡 Đang làm — file đã tạo, chưa implement |
 | 6 | event emitter đơn giản | `exercises/week1/06-event-emitter.js` | ⬜ Chưa tạo |
 | 7 | retry-with-backoff cho 1 Promise | `exercises/week1/07-retry-backoff.js` | ⬜ Chưa tạo |

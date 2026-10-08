@@ -16,7 +16,6 @@ function deepClone(value) {
   if (value === null || typeof value !== 'object') {
     return value
   }
-  // let children = Array.isArray(value) ? value : Object.keys(value)
   let result
   if (Array.isArray(value)) {
     result = []
@@ -75,3 +74,39 @@ if (require.main === module) {
   check('giá trị null được trả về đúng', () =>
     assert.strictEqual(deepClone(null), null));
 }
+
+// ============================================================================
+// GHI CHÚ KIẾN THỨC (bổ sung sau khi hoàn thành bài)
+// ============================================================================
+//
+// 1. Shallow copy vs deep copy
+//    - Shallow ({...obj}, [...arr], Object.assign): chỉ copy cấp 1, object lồng bên trong
+//      vẫn dùng chung reference.
+//    - Deep: copy mọi cấp → sửa bản sao không ảnh hưởng bản gốc ở bất kỳ cấp nào.
+//
+// 2. Cấu trúc đệ quy
+//    - Base case: nguyên thuỷ hoặc null → trả về luôn. Nhớ: typeof null === 'object'.
+//    - Kiểm tra Array.isArray TRƯỚC, vì typeof [] cũng là 'object'.
+//    - Khởi tạo `result` đúng kiểu ([] hoặc {}) SAU khi biết value là gì.
+//    - Mỗi phần tử / mỗi value đều phải gọi deepClone đệ quy, không gán thẳng.
+//
+// 3. Lỗi đã gặp khi làm
+//    - Gán nông `result[key] = value[key]` thay vì `deepClone(value[key])`.
+//    - Khai báo cố định `result = {}` trước khi biết value là array hay object.
+//
+// 4. Vì sao Date/Map/Set/RegExp bị clone thành {} rỗng (câu hỏi xoáy)
+//    - Dữ liệu của chúng nằm trong internal slot, không phải own enumerable property.
+//    - Object.keys(new Date()) → [] → vòng lặp không copy được gì → ra {} rỗng, KHÔNG báo lỗi.
+//    - Muốn hỗ trợ: kiểm tra `instanceof` từng loại và tạo lại (new Date(value), new Map(...)).
+//
+// 5. Circular reference (ngoài scope, hay bị hỏi)
+//    - obj.self = obj → đệ quy vô hạn → RangeError (tràn stack).
+//    - Cách xử lý: dùng WeakMap lưu "object gốc → bản sao đã tạo"; gặp lại object gốc
+//      thì trả về bản sao đã có.
+//
+// 6. Các cách có sẵn và giới hạn của chúng
+//    - JSON.parse(JSON.stringify(x)): mất undefined/function, Date thành string,
+//      Map/Set thành {}, crash với circular reference.
+//    - structuredClone(x): xử lý được Date/Map/Set và circular, nhưng KHÔNG clone được function.
+//
+// 7. Sparse array: `for...of` biến ô trống [1, , 3] thành undefined → bản sao không còn "lỗ".
