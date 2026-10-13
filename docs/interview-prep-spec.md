@@ -101,8 +101,8 @@ Bảng theo dõi để tiếp tục đúng chỗ khi đổi máy (công ty ⇄ n
 | 2 | throttle | `exercises/week1/02-throttle.js` | ✅ Done — pass 8/8 test |
 | 3 | deep clone object | `exercises/week1/03-deep-clone.js` | ✅ Done — pass 9/9 test |
 | 4 | flatten nested array | `exercises/week1/04-flatten.js` | ✅ Done — pass 8/8 test |
-| 5 | memoize | `exercises/week1/05-memoize.js` | 🟡 Đang làm — file đã tạo, chưa implement |
-| 6 | event emitter đơn giản | `exercises/week1/06-event-emitter.js` | ⬜ Chưa tạo |
+| 5 | memoize | `exercises/week1/05-memoize.js` | ✅ Done — pass 8/8 test. 2 lỗi tự sửa: dùng `fn.args` (không tồn tại, function không có property này) làm key khiến mọi lệnh gọi collapse về 1 cache key `undefined`; gọi `fn(this)` thay vì `fn.apply(this, args)` — vừa sai argument truyền vào vừa không giữ đúng `this`. Key dùng `JSON.stringify(args)` để phân biệt đúng kiểu dữ liệu (1 vs '1') và cấu trúc (('a,b') vs ('a','b')) |
+| 6 | event emitter đơn giản | `exercises/week1/06-event-emitter.js` | 🟡 Đang làm — file đã tạo (on/off/once/emit, 8 test), chưa implement |
 | 7 | retry-with-backoff cho 1 Promise | `exercises/week1/07-retry-backoff.js` | ⬜ Chưa tạo |
 | 8 | giới hạn số Promise chạy đồng thời | `exercises/week1/08-concurrency-limit.js` | ⬜ Chưa tạo |
 | 9 | LRU cache đơn giản | `exercises/week1/09-lru-cache.js` | ⬜ Chưa tạo |
