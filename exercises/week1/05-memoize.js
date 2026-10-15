@@ -15,6 +15,7 @@
 // - Không dùng thư viện ngoài.
 //
 // Chạy để tự kiểm tra: node exercises/week1/05-memoize.js
+// Lý thuyết, bản chuẩn đầy đủ, lỗi đã gặp: xem docs/notes/memoize.md
 
 function memoize(fn) {
   const cache = {}
@@ -120,44 +121,3 @@ if (require.main === module) {
     assert.strictEqual(obj.scale(3), 30);
   });
 }
-
-// ============================================================================
-// GHI CHÚ KIẾN THỨC (bổ sung sau khi hoàn thành bài)
-// ============================================================================
-//
-// 1. Ý tưởng cốt lõi
-//    - Cache theo argument: cùng bộ argument → trả kết quả cũ, không gọi lại fn gốc.
-//    - `cache` nằm trong closure của `memoize` → sống suốt đời hàm đã memoize, không bị tạo lại
-//      mỗi lần gọi (giống `timer`/`inThrottle` ở debounce/throttle).
-//
-// 2. Biến nhiều argument thành 1 key
-//    - `args.join(',')` bị COLLISION: ['a,b'].join(',') === ['a','b'].join(',') === "a,b".
-//    - `JSON.stringify(args)` giữ được cấu trúc (mảng) và kiểu dữ liệu → phân biệt đúng
-//      1 vs '1', ('a,b') vs ('a','b').
-//
-// 3. Kiểm tra cache đúng cách với giá trị falsy
-//    - `if (cache[key])` SAI khi kết quả là 0/''/false/undefined — falsy nên tưởng chưa có cache.
-//    - `key in cache` kiểm tra đúng "đã tồn tại key" bất kể giá trị là gì.
-//
-// 4. Thứ tự lệnh khi fn có thể throw
-//    - Gọi fn TRƯỚC, lưu cache SAU khi fn trả về thành công — không cần try/catch,
-//      cứ để lỗi tự bay lên; dòng lưu cache đơn giản không chạy tới nếu fn throw.
-//
-// 5. Giữ đúng `this`
-//    - Hàm bọc ngoài phải nhận đúng `(...args)` của chính nó (KHÔNG lấy từ `fn.args` —
-//      function không có property này, luôn là undefined).
-//    - Gọi `fn.apply(this, args)`, không gọi `fn(this)` — `fn(this)` vừa truyền sai
-//      argument (đưa object `this` vào làm value) vừa không áp `this` làm context cho fn.
-//
-// 6. Lỗi đã gặp khi làm
-//    - Dùng `fn.args` (không tồn tại) làm key → mọi lệnh gọi ra cùng 1 key `undefined`,
-//      toàn bộ cache collapse về 1 ô duy nhất bất kể argument thật.
-//    - Gọi `fn(this)` thay vì `fn.apply(this, args)` → sai cả argument truyền vào
-//      lẫn context `this` bên trong fn.
-//
-// 7. Giới hạn/mở rộng (ngoài scope bài này)
-//    - Cache không giới hạn kích thước → phình vô hạn nếu gọi với rất nhiều argument khác nhau
-//      (bài LRU cache ở Bài 9 giải quyết đúng vấn đề này).
-//    - Argument là object/array: `JSON.stringify` không đảm bảo thứ tự key ổn định giữa
-//      các object "giống nhau" về nội dung nhưng khai báo khác thứ tự field, và không
-//      serialize được function — memoize theo object cần chiến lược key khác (vd WeakMap).

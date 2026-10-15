@@ -95,17 +95,21 @@ Bài tập Tuần 1 (10 hàm JS/TS thuần) được hiện thực hóa thành f
 
 Bảng theo dõi để tiếp tục đúng chỗ khi đổi máy (công ty ⇄ nhà) — cập nhật mỗi khi hoàn thành một bài.
 
-| # | Bài | File | Trạng thái |
-|---|-----|------|-----------|
-| 1 | debounce | `exercises/week1/01-debounce.js` | ✅ Done — pass 5/5 test |
-| 2 | throttle | `exercises/week1/02-throttle.js` | ✅ Done — pass 8/8 test |
-| 3 | deep clone object | `exercises/week1/03-deep-clone.js` | ✅ Done — pass 9/9 test |
-| 4 | flatten nested array | `exercises/week1/04-flatten.js` | ✅ Done — pass 8/8 test |
-| 5 | memoize | `exercises/week1/05-memoize.js` | ✅ Done — pass 8/8 test. 2 lỗi tự sửa: dùng `fn.args` (không tồn tại, function không có property này) làm key khiến mọi lệnh gọi collapse về 1 cache key `undefined`; gọi `fn(this)` thay vì `fn.apply(this, args)` — vừa sai argument truyền vào vừa không giữ đúng `this`. Key dùng `JSON.stringify(args)` để phân biệt đúng kiểu dữ liệu (1 vs '1') và cấu trúc (('a,b') vs ('a','b')) |
-| 6 | event emitter đơn giản | `exercises/week1/06-event-emitter.js` | 🟡 Đang làm — file đã tạo (on/off/once/emit, 8 test), chưa implement |
-| 7 | retry-with-backoff cho 1 Promise | `exercises/week1/07-retry-backoff.js` | ⬜ Chưa tạo |
-| 8 | giới hạn số Promise chạy đồng thời | `exercises/week1/08-concurrency-limit.js` | ⬜ Chưa tạo |
-| 9 | LRU cache đơn giản | `exercises/week1/09-lru-cache.js` | ⬜ Chưa tạo |
-| 10 | parse query string → object | `exercises/week1/10-parse-query-string.js` | ⬜ Chưa tạo |
+| # | Bài | File | Ghi chú/bản chuẩn | Trạng thái |
+|---|-----|------|-----|-----------|
+| 1 | debounce | `exercises/week1/01-debounce.js` | `docs/notes/debounce.md` | ✅ Done — pass 5/5 test |
+| 2 | throttle | `exercises/week1/02-throttle.js` | `docs/notes/throttle.md` | ✅ Done — pass 8/8 test |
+| 3 | deep clone object | `exercises/week1/03-deep-clone.js` | `docs/notes/deep-clone.md` | ✅ Done — pass 9/9 test |
+| 4 | flatten nested array | `exercises/week1/04-flatten.js` | `docs/notes/flatten.md` | ✅ Done — pass 8/8 test |
+| 5 | memoize | `exercises/week1/05-memoize.js` | `docs/notes/memoize.md` | ✅ Done — pass 8/8 test |
+| 6 | event emitter đơn giản | `exercises/week1/06-event-emitter.js` | `docs/notes/event-emitter.md` | ✅ Done — pass 9/9 test (còn 1 lỗ hổng tiềm ẩn chưa fix, xem doc) |
+| 7 | retry-with-backoff cho 1 Promise | `exercises/week1/07-retry-backoff.js` | `docs/notes/retry-with-backoff.md` | 🟡 Đang làm — file đã tạo (5 test), chưa implement |
+| 8 | giới hạn số Promise chạy đồng thời | `exercises/week1/08-concurrency-limit.js` | — | ⬜ Chưa tạo |
+| 9 | LRU cache đơn giản | `exercises/week1/09-lru-cache.js` | — | ⬜ Chưa tạo |
+| 10 | parse query string → object | `exercises/week1/10-parse-query-string.js` | — | ⬜ Chưa tạo |
+
+Từ Bài 1, lý thuyết/bản chuẩn/lỗi đã gặp được viết thành bài đọc riêng trong `docs/notes/`
+(không còn nhúng trực tiếp trong file `.js` — mỗi file exercise chỉ còn 1 dòng trỏ tới doc
+tương ứng, ngay dưới dòng "Chạy để tự kiểm tra").
 
 **Lưu ý khi đổi máy:** đã tách thành git repo độc lập, remote `https://github.com/dmTung99-dev/PraticeLivecode` (tên repo/thư mục là `PraticeLivecode`). Máy Windows ở nhà: `D:\Flutter\PraticeLivecode`. Đổi máy thì `git pull` trước khi làm, `git push` sau mỗi bài. Không push thư mục này qua remote công ty.

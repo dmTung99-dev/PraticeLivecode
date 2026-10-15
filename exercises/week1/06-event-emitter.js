@@ -18,22 +18,43 @@
 // - Không dùng module `events` có sẵn của Node.js (require('events')) — tự viết tay.
 //
 // Chạy để tự kiểm tra: node exercises/week1/06-event-emitter.js
+// Lý thuyết, bản chuẩn đầy đủ, lỗ hổng tiềm ẩn: xem docs/notes/event-emitter.md
 
 class EventEmitter {
+  constructor() {
+    this.events = []
+  }
   on(event, listener) {
-    // TODO: implement
+     if (!this.events[event]) {
+      this.events[event] = []
+      this.events[event].push(listener)
+    } else {
+      this.events[event].push(listener)
+    }
   }
 
   off(event, listener) {
-    // TODO: implement
+    if (!this.events[event]) return;
+
+    let index = this.events[event].indexOf(listener)
+    this.events[event]?.splice(index, 1)
   }
 
   once(event, listener) {
-    // TODO: implement
+    const wrapper = (...args) => {
+      this.off(event, wrapper);
+      listener.apply(this, args);
+    };
+
+    wrapper.originalListener = listener;
+
+    this.on(event, wrapper);
   }
 
   emit(event, ...args) {
-    // TODO: implement
+    this.events[event]?.forEach(element => {
+      element(...args);
+    });
   }
 }
 
@@ -85,7 +106,7 @@ if (require.main === module) {
   (function test4() {
     const emitter = new EventEmitter();
     check('off một listener chưa từng đăng ký không throw', () =>
-      assert.doesNotThrow(() => emitter.off('x', () => {})));
+      assert.doesNotThrow(() => emitter.off('x', () => { })));
   })();
 
   (function test5() {
